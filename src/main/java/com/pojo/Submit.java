@@ -17,6 +17,7 @@ public class Submit {
     private String content;
     private Date createTime;
     private Experiment experiment;
+    private Integer isRead;
 
     public Submit() {
     }
@@ -26,6 +27,14 @@ public class Submit {
         this.courseId = courseId;
         this.experimentId = experimentId;
         this.createTime = createTime;
+    }
+
+    public Integer getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(Integer isRead) {
+        this.isRead = isRead;
     }
 
     public String getContent() {

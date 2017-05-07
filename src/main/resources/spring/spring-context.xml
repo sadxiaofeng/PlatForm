@@ -52,16 +52,32 @@
         </property>
     </bean>
 
+    <!-- 扫描包Service实现类 -->
+    <context:component-scan base-package="com.service"></context:component-scan>
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="freeFind*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+    <aop:config>
+        <aop:pointcut expression="execution(* com.service.*.*(..))" id="txPointCut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+
+
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis/mybatis-conf.xml"/>
-        <!--property name="typeAliasesPackage" value="com.ly.dpms.ui.dao"/ -->
         <property name="mapperLocations" value="classpath:com/platform/mybatis/*.xml"/>
     </bean>
-
-    <!-- 扫描包Service实现类 -->
-    <context:component-scan base-package="com.service"></context:component-scan>
-    <context:component-scan base-package="com.controller"></context:component-scan>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.dao"/>
     </bean>

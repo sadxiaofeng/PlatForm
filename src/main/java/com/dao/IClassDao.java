@@ -10,5 +10,7 @@ import java.util.List;
 public interface IClassDao {
     List<Classroom> getClasses(long courseId);
 
+    Classroom getById(long classId);
 
+    void createClass(Classroom classroom);
 }

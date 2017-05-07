@@ -15,4 +15,6 @@ public interface IUserDao {
     public List<User> getUserByClass(long classId);
 
     public void createUser(User user);
+
+    public void update(User user);
 }

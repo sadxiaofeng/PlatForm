@@ -27,4 +27,9 @@ public class CourseService implements ICourseService{
     public List<Course> getCourseByTeacherId(long id){
         return courseDao.getCoursesByTeacherId(id);
     }
+
+    @Override
+    public void createCourse(Course course) {
+        courseDao.createCourse(course);
+    }
 }

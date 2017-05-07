@@ -4,10 +4,19 @@
     <resultMap id="classroom" type="com.pojo.Classroom">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <collection property="userList" column="classId=id" ofType="com.pojo.User" select="com.dao.IUserDao.getUserByClass"/>
+        <collection property="userList" column="id=id" ofType="com.pojo.User" select="com.dao.IUserDao.getUserByClass"/>
     </resultMap>
+
 
     <select id="getClasses" resultMap="classroom">
         select c.*,m.* from class c,course_class_map m where m.course_id=#{courseId} and c.id = m.class_id
     </select>
+
+    <select id="getById" resultMap="classroom">
+        select * from class where id=#{id}
+    </select>
+
+    <insert id="createClass">
+        insert into class values(#{id},#{name});
+    </insert>
 </mapper>

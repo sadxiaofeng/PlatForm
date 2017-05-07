@@ -36,6 +36,22 @@
     <%
     if(user.getIdentity()==1){
         List<Course> courseList = courseService.getCourseByStudentClassId(user.getClassId());
+    %>
+    <li id="account">
+        <a href="#">
+            <i class="fa-th"></i>
+            <span class="title">账号管理</span>
+        </a>
+        <ul>
+            <li id="changePass">
+                <a href="/mvc/changePass">
+                    <i class="fa-cube"></i>
+                    <span class="title">修改密码</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <%
         for(Course course:courseList){
     %>
     <li id="course<%=course.getId()%>">
@@ -132,6 +148,7 @@
             </li>
         </ul>
     </li>
+
     <li id="class">
         <a href="#">
             <i class="fa-th"></i>
@@ -139,29 +156,31 @@
         </a>
         <ul>
             <li id="addClass">
-                <a href="addClass">
+                <a href="/mvc/admin/addClass">
                     <i class="fa-cube"></i>
                     <span class="title">添加班级</span>
                 </a>
             </li>
         </ul>
     </li>
-    <li class="course">
+
+
+    <li id="courseAdmin">
         <a href="#">
             <i class="fa-th"></i>
             <span class="title">课程管理</span>
         </a>
         <ul>
-            <li>
-                <a href="#">
+            <li id="addCourse">
+                <a href="/mvc/admin/addCourse">
                     <i class="fa-cube"></i>
                     <span class="title">添加课程</span>
                 </a>
             </li>
-            <li>
-                <a href="#">
+            <li id="allocation">
+                <a href="/mvc/admin/allocation">
                     <i class="fa-cube"></i>
-                    <span class="title">教师授课</span>
+                    <span class="title">教师课程分配</span>
                 </a>
             </li>
         </ul>

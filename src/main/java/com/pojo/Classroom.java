@@ -10,6 +10,14 @@ public class Classroom {
     private String name;
     private List<User> userList;
 
+    public Classroom() {
+    }
+
+    public Classroom(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public List<User> getUserList() {
         return userList;
     }

@@ -13,4 +13,6 @@ public interface IUserService {
     List<User> getUserByClass(long classId);
 
     void createUser(User user);
+
+    void update(User user);
 }

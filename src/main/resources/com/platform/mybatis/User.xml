@@ -45,5 +45,18 @@
 		</trim>
 		 )
 	</insert>
+
+	<update id="update">
+		update user
+		<trim prefix="set" prefixOverrides=",">
+			<if test="account!=null">,account=#{account}</if>
+			<if test="password!=null">,password=#{password}</if>
+			<if test="identity!=null">,identity=#{identity}</if>
+			<if test="name!=null">,name=#{name}</if>
+			<if test="classId!=null">,class_id=#{classId}</if>
+			<if test="telephone!=null">,telephone=#{telephone}</if>
+		</trim>
+		where id=#{id}
+	</update>
 </mapper>
 

@@ -6,6 +6,8 @@ import com.util.Constant;
 import com.util.CookieUtil;
 import com.util.TokenUtil;
 import com.util.UniversalResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("auth")
 @Controller
 public class AutherController {
+
+    private static Logger logger = LoggerFactory.getLogger(AutherController.class);
+
     @Resource
     IUserService userService;
 
@@ -47,6 +52,7 @@ public class AutherController {
             return UniversalResult.createSuccessResult(null);
         }
         return UniversalResult.createErrorResult(404);
+
     }
 
     @RequestMapping("loginout")

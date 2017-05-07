@@ -20,4 +20,14 @@ public class ClassService implements IClassService{
     public List<Classroom> getClasses(long courseId) {
         return classDao.getClasses(courseId);
     }
+
+    @Override
+    public Classroom getById(long classId) {
+        return classDao.getById(classId);
+    }
+
+    @Override
+    public void createClass(Classroom classroom) {
+        classDao.createClass(classroom);
+    }
 }

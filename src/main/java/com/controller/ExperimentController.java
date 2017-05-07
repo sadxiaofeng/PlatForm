@@ -8,6 +8,8 @@ import com.service.*;
 import com.util.CookieUtil;
 import com.util.DateUtil;
 import com.util.UniversalResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,7 @@ import java.util.List;
 @RequestMapping("exp")
 @Controller
 public class ExperimentController {
+    private static Logger logger = LoggerFactory.getLogger(ExperimentController.class);
 
     @Resource
     IExperimentService experimentService;

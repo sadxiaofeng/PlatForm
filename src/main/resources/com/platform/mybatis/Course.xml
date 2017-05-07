@@ -23,4 +23,8 @@
     <select id="getCoursesByClassId" resultMap="course">
         select c.*,m.* from course c,course_class_map m where c.id = m.course_id and m.class_id = #{classId}
     </select>
+
+    <insert id="createCourse">
+        insert into course(name,teacher_id,type) values(#{name},#{teacherId},#{type})
+    </insert>
 </mapper>

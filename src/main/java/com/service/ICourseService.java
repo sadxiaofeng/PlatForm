@@ -12,4 +12,6 @@ public interface ICourseService {
     public List<Course> getCourseByStudentClassId(long id);
 
     public List<Course> getCourseByTeacherId(long id);
+
+    void createCourse(Course course);
 }

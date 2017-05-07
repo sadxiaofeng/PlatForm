@@ -8,10 +8,19 @@ import java.util.List;
 public class Course {
     private Long id;
     private String name;
-    private Long teacherId;
+    private String teacherId;
     private User teacher;
     private Integer type;
     private List<Classroom> classroomList;
+
+    public Course() {
+    }
+
+    public Course(String name, String teacherId, Integer type) {
+        this.name = name;
+        this.teacherId = teacherId;
+        this.type = type;
+    }
 
     public User getTeacher() {
         return teacher;
@@ -45,11 +54,11 @@ public class Course {
         this.name = name;
     }
 
-    public Long getTeacherId() {
+    public String getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(Long teacherId) {
+    public void setTeacherId(String teacherId) {
         this.teacherId = teacherId;
     }
 

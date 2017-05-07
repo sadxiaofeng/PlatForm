@@ -14,4 +14,6 @@ public interface ICourseDao {
     Course getById(long id);
 
     List<Course> getCoursesByClassId(long classId);
+
+    void createCourse(Course course);
 }

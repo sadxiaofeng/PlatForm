@@ -30,4 +30,9 @@ public class UserService implements IUserService {
     public void createUser(User user) {
         userDao.createUser(user);
     }
+
+    @Override
+    public void update(User user) {
+        userDao.update(user);
+    }
 }

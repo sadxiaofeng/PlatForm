@@ -150,6 +150,11 @@
         }
         return true;
     }
+
+    function IsNum(num){
+        var reNum=/^\d*$/;
+        return(reNum.test(num));
+    }
 </script>
 </body>
 </html>

@@ -12,6 +12,17 @@ public class User {
     private Long classId;
     private String telephone;
 
+    public User() {
+    }
+
+    public User(String account, String password, Integer identity, String name, Long classId) {
+        this.account = account;
+        this.password = password;
+        this.identity = identity;
+        this.name = name;
+        this.classId = classId;
+    }
+
     public Long getId() {
         return id;
     }
