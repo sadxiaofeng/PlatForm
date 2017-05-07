@@ -1,6 +1,6 @@
 ##ignore this file##
 target/
-
+.idea/
 ##class file##
 *.com  
 *.class  
