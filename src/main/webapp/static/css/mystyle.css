@@ -1,0 +1,39 @@
+
+.panel-heading strong {
+	color:#737B7B;
+	font-style:oblique;
+	font-size:24px;
+}
+
+.panel-heading panel-title {
+	color:#737B7B;
+	font-style:oblique;
+}
+
+.control-label {
+	color:#5C5F61;
+}
+
+.mylabel {
+	font-size:14px;
+	color:#5C5F61;
+	padding-left:25px;
+	float:left;
+}
+
+.table>thead>tr>th {
+	text-align:center
+}
+
+.table>tbody>tr>td {
+	text-align:center
+}
+
+.mydiv {
+	padding-top: 7px;
+}
+.myh
+{
+	margin-top:5px;
+	margin-bottom:5px;
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+			    http://www.springframework.org/schema/mvc
+				http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://127.0.0.1:3306/platform?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull</value>
+        </property>
+        <property name="username">
+            <value>qx</value>
+        </property>
+        <property name="password">
+            <value>root</value>
+        </property>
+        <property name="maxActive">
+            <value>200</value>
+        </property>
+        <property name="minIdle">
+            <value>10</value>
+        </property>
+        <property name="maxIdle">
+            <value>50</value>
+        </property>
+        <property name="initialSize">
+            <value>10</value>
+        </property>
+        <property name="maxWait">
+            <value>5000</value>
+        </property>
+        <property name="testOnBorrow">
+            <value>true</value>
+        </property>
+        <property name="validationQuery">
+            <value>select 1</value>
+        </property>
+        <property name="validationQueryTimeout">
+            <value>3</value>
+        </property>
+    </bean>
+
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis/mybatis-conf.xml"/>
+        <!--property name="typeAliasesPackage" value="com.ly.dpms.ui.dao"/ -->
+        <property name="mapperLocations" value="classpath:com/platform/mybatis/*.xml"/>
+    </bean>
+
+    <!-- 扫描包Service实现类 -->
+    <context:component-scan base-package="com.service"></context:component-scan>
+    <context:component-scan base-package="com.controller"></context:component-scan>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dao"/>
+    </bean>
+</beans>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.IExperimentDao">
+    <resultMap id="experiment" type="com.pojo.Experiment">
+        <id property="id" column="id"/>
+        <result property="creatorId" column="creator"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="creat_date"/>
+        <result property="deadLine" column="dead_line"/>
+        <result property="classId" column="class_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="status" column="status"/>
+        <association property="creator" column="creator" javaType="com.pojo.User"
+                     select="com.dao.IUserDao.getUserById"/>
+    </resultMap>
+
+    <insert id="create">
+        insert into experiment (
+        <trim prefix=" " prefixOverrides=",">
+            <if test=" id!= null">,id</if>
+            <if test=" creatorId!= null">,creator</if>
+            <if test=" title!= null">,title</if>
+            <if test=" content!= null">,content</if>
+            <if test=" createTime!= null">,creat_date</if>
+            <if test=" deadLine!= null">,dead_line</if>
+            <if test=" classId!= null">,class_id</if>
+            <if test=" courseId!= null">,course_id</if>
+            <if test=" status!= null">,status</if>
+        </trim>
+        ) values(
+        <trim prefix=" " prefixOverrides=",">
+            <if test=" id!= null">,#{id}</if>
+            <if test=" creatorId!= null">,#{creatorId}</if>
+            <if test=" title!= null">,#{title}</if>
+            <if test=" content!= null">,#{content}</if>
+            <if test=" createTime!= null">,#{createTime}</if>
+            <if test=" deadLine!= null">,#{deadLine}</if>
+            <if test=" classId!= null">,#{classId}</if>
+            <if test=" courseId!= null">,#{courseId}</if>
+            <if test=" status!= null">,status=#{status}</if>
+        </trim>
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from experiment where id = #{id}
+    </delete>
+    <select id="getById" resultMap="experiment">
+        select * from experiment where id = #{id}
+    </select>
+
+    <update id="update">
+        update experiment
+        <trim prefix="set" prefixOverrides=",">
+            <if test=" id!= null">,id=#{id}</if>
+            <if test=" creatorId!= null">,creator=#{creatorId}</if>
+            <if test=" title!= null">,title=#{title}</if>
+            <if test=" content!= null">,content=#{content}</if>
+            <if test=" createTime!= null">,creat_date=#{creatTime}</if>
+            <if test=" deadLine!= null">,dead_line=#{deadLine}</if>
+            <if test=" classId!= null">,class_id=#{classId}</if>
+            <if test=" courseId!= null">,course_id=#{courseId}</if>
+            <if test=" status!= null">,status=#{status}</if>
+        </trim>
+    </update>
+
+    <select id="getByCoursClass" resultMap="experiment">
+        select * from experiment where course_id=#{courseId} and class_id=#{classId}
+    </select>
+
+    <update id="publishExp">
+        update experiment set status=1 where id=#{id}
+    </update>
+</mapper>

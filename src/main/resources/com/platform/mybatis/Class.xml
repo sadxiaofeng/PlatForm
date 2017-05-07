@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.IClassDao">
+    <resultMap id="classroom" type="com.pojo.Classroom">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="userList" column="classId=id" ofType="com.pojo.User" select="com.dao.IUserDao.getUserByClass"/>
+    </resultMap>
+
+    <select id="getClasses" resultMap="classroom">
+        select c.*,m.* from class c,course_class_map m where m.course_id=#{courseId} and c.id = m.class_id
+    </select>
+</mapper>

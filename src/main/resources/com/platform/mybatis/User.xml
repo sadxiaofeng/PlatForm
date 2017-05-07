@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.IUserDao">
+	<resultMap id="user" type="com.pojo.User">
+		<id property="id" column="id"/>
+		<result property="account" column="account"/>
+		<result property="password" column="password"/>
+		<result property="identity" column="identity"/>
+		<result property="name" column="name"/>
+		<result property="classId" column="class_id"/>
+		<result property="telephone" column="telephone"/>
+	</resultMap>
+
+	<select id="getUserByAccount" resultMap="user">
+		select * from user where account = #{account}
+	</select>
+
+	<select id="getUserById" resultMap="user">
+		select * from user where id = #{id}
+	</select>
+
+	<select id="getUserByClass" resultMap="user">
+		select * from user where class_id = #{classId}
+	</select>
+
+	<insert id="createUser">
+		insert into user(
+		<trim prefix=" " prefixOverrides=",">
+			<if test="account!=null">,account</if>
+			<if test="password!=null">,password</if>
+			<if test="identity!=null">,identity</if>
+			<if test="name!=null">,name</if>
+			<if test="classId!=null">,class_id</if>
+			<if test="telephone!=null">,telephone</if>
+		</trim>
+		)
+		 values(
+		<trim prefix=" " prefixOverrides=",">
+			<if test="account!=null">,#{account}</if>
+			<if test="password!=null">,#{password}</if>
+			<if test="identity!=null">,#{identity}</if>
+			<if test="name!=null">,#{name}</if>
+			<if test="classId!=null">,#{classId}</if>
+			<if test="telephone!=null">,#{telephone}</if>
+		</trim>
+		 )
+	</insert>
+</mapper>
+

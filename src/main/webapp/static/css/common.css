@@ -1,0 +1,121 @@
+.stage-details {
+	border: 0px solid #000;
+	border-radius: 0px;
+	max-height: 200px;
+	overflow-x: hidden;  
+	overflow-y: hidden; 
+	margin: 0;
+	transition: max-height 0.25s ease-out, padding 0.25s ease-out;
+}
+
+.stage-details.collapsed {
+	max-height: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	border: none;
+}
+
+span.expand-details {
+	font-size: 10pt;
+	cursor: pointer;
+	float: right;
+	color:#0786e9;
+}
+
+.log-console {
+	background-color: #0d3163;
+	padding: .5rem .5rem;
+	border: 1px solid #0d3163;
+	border-radius: 2px;
+	overflow-x: auto;
+	color: #fff;
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+	font-weight: normal;
+	font-size: 10px;
+	line-height: 1.5rem;
+	counter-reset: line-number;
+	height: 200px;
+}
+
+.log-console > div {
+	clear: both;
+	padding: 0 0 0 0.5rem;
+	white-space: pre-wrap;
+}
+
+.log-console > div:before {
+	content: " ";
+	display: block;
+	height: 45px;
+	margin-top: -45px;
+	visibility: hidden;
+}
+
+.log-console > div > a:first-child {
+	display: inline-block;
+	width: 3.5rem;
+	padding-right: .5rem;
+	text-align: right;
+	margin-left: -3.5rem;
+	background-color: #0d3163;
+	color: #00aad7;
+	text-decoration: none;
+	line-height: inherit;
+}
+
+.log-console > div > a:first-child:before {
+	content: counter(line-number);
+	counter-increment: line-number;
+}
+
+.log-console .fg-9 {
+	color: red;
+}
+
+.log-console .fg-10 {
+	color: #0f0;
+}
+
+.log-console .fg-11 {
+	color: #0ff;
+}
+
+.log-console .fg-12 {
+	color: #fbe203;
+}
+
+
+.java {
+	background-color: #000;
+	border: 1px solid #000;
+	color: #C8C6C6;
+}
+
+.java > div > a:first-child {
+	background-color: #000;
+}
+
+.number {
+	color: #000;
+	text-align: center;
+}
+
+.number > div {
+	background-color: #f5f5f5;
+}
+
+.number .success {
+	color: rgba(50, 172, 45, 0.97);
+	font-size: 3em;
+	font-weight: 700;
+}
+
+.number .error {
+	color: rgba(245, 54, 54, 0.9);
+	font-size: 3em;
+	font-weight: 700;
+}
+
+.bgClick {
+	background-color:#d8e9f6;
+}
