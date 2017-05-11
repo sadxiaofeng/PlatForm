@@ -16,7 +16,7 @@
                                 原密码：
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="oldPwd"/>
+                                <input type="password" class="form-control" id="oldPwd"/>
                             </div>
                         </div>
 
@@ -25,7 +25,7 @@
                                 新密码：
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="pwd"/>
+                                <input type="password" class="form-control" id="pwd"/>
                             </div>
                         </div>
 
@@ -34,7 +34,7 @@
                                 确认密码：
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="pwdSec"/>
+                                <input type="password" class="form-control" id="pwdSec"/>
                             </div>
                         </div>
 

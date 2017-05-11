@@ -44,7 +44,7 @@ public class BaseController {
     public ModelAndView changePass(){
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("page","admin/changePass");
-        mv.addObject("parentPages",new String[]{"accout","changePass"});
+        mv.addObject("parentPages",new String[]{"account","changePass"});
         return mv;
     }
 

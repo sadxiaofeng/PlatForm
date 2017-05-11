@@ -41,7 +41,7 @@
 
     <!-- 根日志 -->
     <root>
-        <priority value="INFO"/>
+        <priority value="debug"/>
         <appender-ref ref="stdout"/>
     </root>
 

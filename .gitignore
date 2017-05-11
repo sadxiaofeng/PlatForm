@@ -1,5 +1,6 @@
 ##ignore this file##
 target/
+src/main/test/*
 .idea/
 ##class file##
 *.com  
