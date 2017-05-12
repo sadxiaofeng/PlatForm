@@ -14,9 +14,9 @@
     <meta name="description" content="Admin Panel"/>
     <meta name="author" content="lisong"/>
 
-    <title>数据平台</title>
+    <title>实验教学平台</title>
 
-    <link rel="shortcut icon" href="<%=request.getContextPath() %>/static/img/favicon.ico"/>
+    <%--<link rel="shortcut icon" href="<%=request.getContextPath() %>/static/img/favicon.ico"/>--%>
 
     <link rel="stylesheet"
           href="<%=request.getContextPath() %>/static/plugins/xenon/assets/css/fonts/linecons/css/linecons.css">

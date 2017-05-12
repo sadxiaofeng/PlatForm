@@ -75,6 +75,7 @@ public class ExperimentController {
         User user = CookieUtil.getCurrentUser(request);
         List<Submit> submitList = submitService.getSubmitByStudentId(user.getId(),courseId);
         mv.addObject("page","stu/view");
+        mv.addObject("courseId",courseId);
         mv.addObject("submitList",submitList);
         mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
         return mv;
@@ -108,5 +109,13 @@ public class ExperimentController {
             submitService.create(submit);
         }
         return UniversalResult.createSuccessResult(null);
+    }
+
+    @RequestMapping("editExp")
+    public ModelAndView editExp(long courseId){
+        ModelAndView mv = new ModelAndView("main");
+        mv.addObject("page","stu/edit");
+        mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
+        return mv;
     }
 }

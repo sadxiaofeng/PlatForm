@@ -32,7 +32,7 @@
                         <div class="form-group text-center">
                             <div class="col-sm-12">
                                 <button type="button" class="btn btn-primary" id="form_submit">
-                                    <i class="icon-ok icon-white"></i> 保存
+                                    <i class="icon-ok icon-white"></i> 确认
                                 </button>
                                 &nbsp;&nbsp;
                                 <button type="button" class="btn" onclick="sessionStorage.clear();history.go(-1);"

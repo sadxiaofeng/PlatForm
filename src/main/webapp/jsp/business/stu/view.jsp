@@ -1,5 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
 <%@ include file="../common/inc.jsp" %>
+<style>
+    td{
+        color:#000 !important;
+        font-weight: 500 !important;
+    }
+</style>
 <div>
     <table class="table table-model-2 table-hover table-condensed">
         <thead>
@@ -22,13 +28,17 @@
                 <td>${submit.course.name}</td>
                 <td>${submit.course.teacher.name}</td>
                 <td>${submit.experiment.title}</td>
-                <td>${submit.createTime}</td>
+                <td>
+                    <fmt:formatDate value="${submit.createTime}"
+                                    pattern="yyyy-MM-dd HH:mm aa" type="date" dateStyle="long"/></td>
                 <td>${{0:"未开始",
                         1:"未完成",
                         2:"完成未审批",
                         3:"已审批"
                 }[submit.status]}</td>
-                <td></td>
+                <td>
+                    <a href="javascript:void(0);" class="editexp" id="${submit.id}"><span class="fa-pencil-square-o" title="查看同步表状态"></span> </a>
+                </td>
             </tr>
         </c:forEach>
     </c:if>
@@ -42,3 +52,10 @@
     </tbody>
     </table>
 </div>
+<input type="hidden" id="courseId" value="${courseId}">
+<script>
+    $(".editexp").click(function(){
+        $id = $(this).attr("id");
+        window.location.href="/mvc/exp/editExp?courseId="+$("#courseId").val()+"&expId="+$id;
+    });
+</script>

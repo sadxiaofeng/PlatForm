@@ -15,6 +15,8 @@ import com.util.UniversalResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -86,10 +88,25 @@ public class ManagerController {
         return UniversalResult.createSuccessResult(null);
     }
 
-    @ResponseBody
     @RequestMapping("resetPassword")
-    public UniversalResult resetPassword(String name,String jobNumber){
-        return null;
+    public ModelAndView resetPassword(){
+        ModelAndView mv = new ModelAndView("main");
+        mv.addObject("page","admin/resetPassword");
+        mv.addObject("parentPages",new String[]{"courseAdmin","resetPassword"});
+        return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping("resetPwd")
+    public UniversalResult  resetPwd(String name,String jobName){
+        User user = userService.getUserByAccount(jobName);
+        if(user.getName().equals(name)){
+            user.setPassword(user.getAccount());
+            userService.update(user);
+            return UniversalResult.createSuccessResult(null);
+        }else{
+            return UniversalResult.createErrorResult(400);
+        }
     }
 
 
@@ -140,4 +157,5 @@ public class ManagerController {
         mv.addObject("parentPages",new String[]{"courseAdmin","allocation"});
         return mv;
     }
+
 }

@@ -19,7 +19,7 @@
 
     <title>实验教学平台登录</title>
 
-    <link rel="shortcut icon" href="<%=request.getContextPath() %>/static/img/favicon.ico"/>
+    <%--<link rel="shortcut icon" href="<%=request.getContextPath() %>/static/img/favicon.ico"/>--%>
 
     <link rel="stylesheet"
           href="<%=request.getContextPath() %>/static/plugins/xenon/assets/css/fonts/linecons/css/linecons.css">
