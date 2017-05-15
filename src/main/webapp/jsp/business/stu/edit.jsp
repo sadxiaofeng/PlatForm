@@ -1,11 +1,4 @@
-<style>
-    .main-content{
-        /*padding:0 !important;*/
-    }
-    #editor-container{
-        height:500px;
-    }
-</style>
+
 <pre id="editor-container">
 
 </pre>

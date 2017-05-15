@@ -112,10 +112,8 @@ public class ExperimentController {
     }
 
     @RequestMapping("editExp")
-    public ModelAndView editExp(long courseId){
-        ModelAndView mv = new ModelAndView("main");
-        mv.addObject("page","stu/edit");
-        mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
+    public ModelAndView editExp(){
+        ModelAndView mv = new ModelAndView("business/coding/coding");
         return mv;
     }
 }

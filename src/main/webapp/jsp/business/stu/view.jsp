@@ -56,6 +56,6 @@
 <script>
     $(".editexp").click(function(){
         $id = $(this).attr("id");
-        window.location.href="/mvc/exp/editExp?courseId="+$("#courseId").val()+"&expId="+$id;
+        window.location.href="/mvc/exp/editExp?expId="+$id;
     });
 </script>
