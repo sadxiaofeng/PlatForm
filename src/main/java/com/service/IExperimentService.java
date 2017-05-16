@@ -12,9 +12,11 @@ public interface IExperimentService {
 
     void createExperiment(Experiment experiment);
 
-    void publishExp(long id);
+    void publishExp(long id,long classId);
 
     void delete(long id);
 
     Experiment getById(long id);
+
+    void update(Experiment experiment);
 }

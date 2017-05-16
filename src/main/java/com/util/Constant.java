@@ -13,6 +13,6 @@ public class Constant {
     public static final int AUTHER_TEACHER = 2;
     public static final int AUTHER_ADMIN = 3;
 
-    public static final String WEBSOCKET_USERNAME="WEBSOCKET_USERNAME";
+    public static final String WEBSOCKET_USERID="WEBSOCKET_USERID";
 
 }

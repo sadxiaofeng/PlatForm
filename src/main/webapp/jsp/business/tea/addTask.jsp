@@ -11,7 +11,7 @@
                                 题目：
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" id="title" class="form-control">
+                                <input type="text" id="title" class="form-control" value="<c:if test="${!empty exp}">${exp.title}</c:if>"/>
                             </div>
                         </div>
 
@@ -20,7 +20,7 @@
                                 要求：
                             </label>
                             <div class="col-sm-8">
-                                <textarea class="form-control" rows="10" id="content"></textarea>
+                                <textarea class="form-control" rows="10" id="content"><c:if test="${!empty exp}">${exp.content}</c:if></textarea>
                             </div>
                         </div>
 
@@ -29,12 +29,11 @@
                                 截止时间：
                             </label>
                             <div class="col-sm-8">
-                                <input name="deadline" type="text" class="form-control" style="padding-left:5px;color:black;" id="deadline" onclick="SetDate(this,'yyyy-MM-dd hh:mm')" readonly="readonly" />
+                                <input name="deadline" type="text" class="form-control" style="padding-left:5px;color:black;" id="deadline" onclick="SetDate(this,'yyyy-MM-dd hh:mm')"
+                                       readonly="readonly" value="<fmt:formatDate value="${exp.deadLine}" pattern="yyyy-MM-dd hh:mm"/>" pattern="yyyy-MM-dd hh:mm"/>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -55,6 +54,7 @@
 </div>
 <input type="hidden" value="${courseId}" id="courseId"/>
 <input type="hidden" value="${classId}" id="classId"/>
+<input type="hidden" value="${exp.id}" id="expId"/>
 <script>
     $("#form_submit").click(function(){
         var param={
@@ -63,14 +63,35 @@
             deadline:$("#deadline").val(),
             courseId:$("#courseId").val(),
             classId:$("#classId").val()
-        }
-        request("/mvc/exp/createExp",param,function(data){
-            if(data.head.status="success"){
-                alert("实验任务创建成功！");
-                window.location.href="/mvc/exp/viewTask?courseId="+$("#courseId").val()+"&classId="+$("#classId").val();
-            }else{
-                alert("未知错误，创建失败！")
+        };
+        var expId = $("#expId").val();
+        if(expId==""){
+            request("/mvc/exp/createExp",param,function(data){
+                if(data.head.status="success"){
+                    alert("实验任务创建成功！");
+                    window.location.href="/mvc/exp/viewTask?courseId="+$("#courseId").val()+"&classId="+$("#classId").val();
+                }else{
+                    alert("未知错误，创建失败！")
+                }
+            });
+        }else{
+            var param={
+                id:expId,
+                title:$("#title").val(),
+                content:$("#content").val(),
+                deadline:$("#deadline").val(),
+                courseId:$("#courseId").val(),
+                classId:$("#classId").val()
             }
-        });
+            request("/mvc/exp/modifyExp",param,function(data){
+                if(data.head.status="success"){
+                    alert("实验任务创建成功！");
+                    window.location.href="/mvc/exp/viewTask?courseId="+$("#courseId").val()+"&classId="+$("#classId").val();
+                }else{
+                    alert("未知错误，创建失败！")
+                }
+            });
+        }
+
     });
 </script>

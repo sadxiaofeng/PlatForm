@@ -32,12 +32,15 @@
                     <fmt:formatDate value="${submit.createTime}"
                                     pattern="yyyy-MM-dd HH:mm aa" type="date" dateStyle="long"/></td>
                 <td>${{0:"未开始",
-                        1:"未完成",
+                        1:"完成中",
                         2:"完成未审批",
-                        3:"已审批"
+                        3:"已批阅(优)",
+                        4:"已批阅(良)",
+                        5:"已批阅(中)"
                 }[submit.status]}</td>
                 <td>
-                    <a href="javascript:void(0);" class="editexp" id="${submit.id}"><span class="fa-pencil-square-o" title="查看同步表状态"></span> </a>
+                    <a href="javascript:void(0);" class="editexp" id="${submit.id}"><span class="fa-pencil-square-o" title="编写"></span> </a>
+                    <a href="javascript:void(0);" class="view" id="${submit.id}"><span class="fa-eye" title="查看代码"></span> </a>
                 </td>
             </tr>
         </c:forEach>
@@ -54,8 +57,17 @@
 </div>
 <input type="hidden" id="courseId" value="${courseId}">
 <script>
-    $(".editexp").click(function(){
-        $id = $(this).attr("id");
-        window.location.href="/mvc/exp/editExp?expId="+$id;
+    $(".editexp").each(function(){
+        $(this).click(function() {
+            $id = $(this).attr("id");
+            window.location.href = "/mvc/exp/editExp?subId=" + $id + "&courseId=" + $("#courseId").val();
+        });
+    });
+
+    $(".view").each(function(){
+        $(this).click(function() {
+            $id = $(this).attr("id");
+            window.location.href = "/mvc/exp/viewCode?subId=" + $id + "&courseId=" + $("#courseId").val();
+        });
     });
 </script>

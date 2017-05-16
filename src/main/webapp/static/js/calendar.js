@@ -6,7 +6,7 @@ function SetDate(obj,strFormat)
     var by = date.getFullYear()-10; //最小值 → 10 年前
     var ey = date.getFullYear()+10; //最大值 → 10 年后
     //初始化为中文版，1为英文版
-    cal = (cal==null) ? new Calendar(by, ey, 0,strFormat) : (cal.dateFormatStyle == strFormat ? cal : new Calendar(by, ey, 0,strFormat));
+    cal = (cal==null) ? new Calendar(by, ey, 1,strFormat) : (cal.dateFormatStyle == strFormat ? cal : new Calendar(by, ey, 1,strFormat));
     cal.show(obj);
 }
 /**//* 返回日期 */
@@ -62,7 +62,7 @@ Date.prototype.format = function(style){
 function Calendar(beginYear, endYear, lang, dateFormatStyle){
     this.beginYear = 1990;
     this.endYear = 2010;
-    this.lang = 0;            //0(中文) | 1(英文)
+    this.lang = 1;            //0(中文) | 1(英文)
     this.dateFormatStyle = "yyyy-MM-dd";
     if (beginYear != null && endYear != null){
         this.beginYear = beginYear;

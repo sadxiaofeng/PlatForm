@@ -7,7 +7,6 @@
         <result property="courseId" column="course_id"/>
         <result property="submitTime" column="submit_time" javaType="java.sql.Timestamp"/>
         <result property="status" column="status"/>
-        <result property="startTime" column="start_time" javaType="java.sql.Timestamp"/>
         <result property="experimentId" column="exp_id"/>
         <result property="createTime" column="create_time"/>
         <result property="content" column="content"/>
@@ -26,11 +25,10 @@
             <if test="courseId!=null">,course_id</if>
             <if test="submitTime!=null">,submit_time</if>
             <if test="status!=null">,status</if>
-            <if test="startTime!=null">,start_time</if>
-            <if test="experimentId">,exp_id</if>
-            <if test="createTime">,create_time</if>
-            <if test="content">,content</if>
-            <if test="isRead">,is_read</if>
+            <if test="experimentId!=null">,exp_id</if>
+            <if test="createTime!=null">,create_time</if>
+            <if test="content!=null">,content</if>
+            <if test="isRead!=null">,is_read</if>
         </trim>
         ) values(
         <trim prefix=" " prefixOverrides=",">
@@ -39,11 +37,10 @@
             <if test="courseId!=null">,#{courseId}</if>
             <if test="submitTime!=null">,#{submitTime}</if>
             <if test="status!=null">,#{status}</if>
-            <if test="startTime!=null">,#{startTIme}</if>
-            <if test="experimentId">,#{experimentId}</if>
-            <if test="createTime">,#{createTime}</if>
-            <if test="content">,#{content}</if>
-            <if test="isRead">,#{isRead}</if>
+            <if test="experimentId!=null">,#{experimentId}</if>
+            <if test="createTime!=null">,#{createTime}</if>
+            <if test="content!=null">,#{content}</if>
+            <if test="isRead!=null">,#{isRead}</if>
         </trim>
         )
     </insert>
@@ -51,17 +48,16 @@
     <update id="update">
         update studnet_submit
         <trim prefix="set" prefixOverrides=",">
-            <if test="id!=null">,id=#{id}</if>
             <if test="studentId!=null">,student_id=#{studentId}</if>
-            <if test="courseId!=null">course_id=#{courseId}</if>
+            <if test="courseId!=null">,course_id=#{courseId}</if>
             <if test="submitTime!=null">,submit_time=#{submitTime}</if>
             <if test="status!=null">,status=#{status}</if>
-            <if test="startTime!=null">,start_time=#{startTIme}</if>
-            <if test="experimentId">,exp_id=#{experimentId}</if>
-            <if test="createTime">,create_time#{createTime}</if>
-            <if test="content">,contnet=#{content}</if>
-            <if test="isRead">,is_read=#{isRead}</if>
+            <if test="experimentId!=null">,exp_id=#{experimentId}</if>
+            <if test="createTime!=null">,create_time=#{createTime}</if>
+            <if test="content!=null">,content=#{content}</if>
+            <if test="isRead!=null">,is_read=#{isRead}</if>
         </trim>
+        where id=#{id}
     </update>
 
     <delete id="delete">

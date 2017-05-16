@@ -47,6 +47,12 @@ public class ExperimentController {
     @RequestMapping("addExp")
     public ModelAndView addExp(HttpServletRequest request,int courseId,int classId){
         ModelAndView mv = new ModelAndView("main");
+        String expId = request.getParameter("expId");
+        if(expId!=null && !expId.trim().equals("")){
+            Experiment exp = experimentService.getById(Long.parseLong(expId));
+            exp.getDeadLine();
+            mv.addObject("exp",exp);
+        }
         User user = CookieUtil.getCurrentUser(request);
         mv.addObject("page","tea/addTask");
         mv.addObject("courseId",courseId);
@@ -99,21 +105,65 @@ public class ExperimentController {
     }
 
     @ResponseBody
+    @RequestMapping("modifyExp")
+    public UniversalResult modifyExp(@RequestParam("id") long id,@RequestParam("title") String title,@RequestParam("content") String content,@RequestParam("deadline")String deadline,
+                                     @RequestParam("courseId") long courseId,@RequestParam("classId") long classId, HttpServletRequest request){
+        User teacher = CookieUtil.getCurrentUser(request);
+        Experiment experiment = experimentService.getById(id);
+        experiment.setDeadLine(DateUtil.parse(deadline));
+        experiment.setCreatorId(teacher.getId());
+        experiment.setTitle(title);
+        experiment.setCourseId(courseId);
+        experiment.setClassId(classId);
+        experiment.setContent(content);
+        experiment.setCreateTime(new Date());
+        experimentService.update(experiment);
+        return UniversalResult.createSuccessResult(null);
+    }
+
+
+    @ResponseBody
     @RequestMapping("publishExp")
     public UniversalResult publishExp(long id,long classId){
-        experimentService.publishExp(id);
-        Experiment experiment = experimentService.getById(id);
-        List<User> userList = userService.getUserByClass(classId);
-        for(User user : userList){
-            Submit submit = new Submit(user.getId(),experiment.getCourseId(),experiment.getId(),new Date());
-            submitService.create(submit);
-        }
+        experimentService.publishExp(id,classId);
         return UniversalResult.createSuccessResult(null);
     }
 
     @RequestMapping("editExp")
-    public ModelAndView editExp(){
-        ModelAndView mv = new ModelAndView("business/coding/coding");
+    public ModelAndView editExp(long courseId,long subId){
+        ModelAndView mv = new ModelAndView("main");
+        mv.addObject("page","coding/coding");
+        mv.addObject("courseId",courseId);
+        mv.addObject("submit",submitService.getById(subId));
+        mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
+        return mv;
+    }
+
+    @RequestMapping("viewCode")
+    public ModelAndView viewCode(long courseId,long subId){
+        ModelAndView mv = new ModelAndView("main");
+        mv.addObject("page","stu/viewCode");
+        mv.addObject("courseId",courseId);
+        mv.addObject("submit",submitService.getById(subId));
+        mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
+        return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping("delete")
+    public UniversalResult delete(long expId){
+        experimentService.delete(expId);
+        return UniversalResult.createSuccessResult(null);
+    }
+
+
+    @RequestMapping("showDetail")
+    public ModelAndView showDetail(long courseId,long expId){
+        ModelAndView mv = new ModelAndView("main");
+        mv.addObject("page","tea/detail");
+        mv.addObject("experiment",experimentService.getById(expId));
+        mv.addObject("leaf","viewTask"+courseId);
+        mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
         return mv;
     }
 }

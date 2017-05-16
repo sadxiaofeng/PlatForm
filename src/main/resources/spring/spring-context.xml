@@ -52,6 +52,8 @@
         </property>
     </bean>
 
+
+
     <!-- 扫描包Service实现类 -->
     <context:component-scan base-package="com.service"></context:component-scan>
 
@@ -81,4 +83,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.dao"/>
     </bean>
+
+    <bean class="com.pojo.socket.MessageHandler"></bean>
+    <bean class="com.pojo.socket.SubmitHandler"></bean>
 </beans>

@@ -4,6 +4,13 @@
 <%
     User user = CookieUtil.getCurrentUser(request);
 %>
+<style>
+    .ms{
+        min-width:220px;
+        height:75.6px;
+        line-height:75.6px !important;
+    }
+</style>
 <nav class="navbar user-info-navbar" role="navigation" style="margin-bottom: 10px;">
 
     <!-- Left links for user info navbar -->
@@ -31,16 +38,16 @@
     </ul>
 
 
+
     <!-- Right links for user info navbar -->
     <ul class="user-info-menu right-links list-inline list-unstyled">
 
         <li class="dropdown user-profile">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                <img src="<%=request.getContextPath() %>/static/plugins/xenon/assets/images/user-4.png" alt="user-image"
+                <img src="<%=request.getContextPath() %>/static/plugins/xenon/assets/images/user-6.jpg" alt="user-image"
                      class="img-circle img-inline userpic-32" width="28"/>
                 <span>
                     <%=user.getName() %>
-                    <%--<%=user.getUsername() %>--%>
                     <i class="fa-angle-down"></i>
                 </span>
             </a>
@@ -49,7 +56,6 @@
                 <li>
                     <a>
                         <i class="fa-flag"></i>
-                        <%--<%=user.getWorkId() %>--%>
                         <%=user.getAccount() %>
                     </a>
                 </li>
@@ -64,6 +70,12 @@
         </li>
     </ul>
 
+    <ul class="user-info-menu right-links list-inline list-unstyled">
+        <li class="user-profile ms" >
+            <img src=""/>
+        </li>
+    </ul>
+
 </nav>
 
 <script type="text/javascript">
@@ -73,6 +85,22 @@
         $("#logout_modal").modal('show');
     });
 
-
+    websocket = new WebSocket("ws://localhost:8080/mvc/ws/login?id="+<%=user.getAccount()%>);
+    websocket.onopen = function (evnt) {
+        console.log("connection success");
+    };
+    websocket.onmessage = function (evnt) {
+    };
+    websocket.onerror = function (evnt) {
+    };
+    websocket.onclose = function (evnt) {
+    }
+//    if ('WebSocket' in window) {
+//        websocket = new WebSocket("ws://localhost:8080/Origami/webSocketServer");
+//    } else if ('MozWebSocket' in window) {
+//        websocket = new MozWebSocket("ws://localhost:8080/Origami/webSocketServer");
+//    } else {
+//        websocket = new SockJS("http://localhost:8080/Origami/sockjs/webSocketServer");
+//    }
 </script>
 	

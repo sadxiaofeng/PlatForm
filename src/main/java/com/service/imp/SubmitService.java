@@ -26,4 +26,14 @@ public class SubmitService  implements ISubmitService {
     public void create(Submit submit) {
         submitDao.create(submit);
     }
+
+    @Override
+    public Submit getById(long id) {
+        return submitDao.getById(id);
+    }
+
+    @Override
+    public void update(Submit submit) {
+        submitDao.update(submit);
+    }
 }

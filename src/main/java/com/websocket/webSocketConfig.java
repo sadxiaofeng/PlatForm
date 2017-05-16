@@ -1,6 +1,9 @@
 package com.websocket;
 
+import com.pojo.socket.MessageHandler;
 import com.pojo.socket.SubmitHandler;
+import com.websocket.interceptor.MsWebSocketHandlerInterceptor;
+import com.websocket.interceptor.SubmitWebSocketHandlerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -18,11 +21,17 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class webSocketConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(getHandler());
+        registry.addHandler(getMsHandler(),"/ws/login").addInterceptors(new MsWebSocketHandlerInterceptor());
+        registry.addHandler(getSubmitHandler(),"/ws/submit").addInterceptors(new SubmitWebSocketHandlerInterceptor());
     }
 
+
     @Bean
-    public SubmitHandler getHandler(){
+    public MessageHandler getMsHandler(){
+        return new MessageHandler();
+    }
+    @Bean
+    public SubmitHandler getSubmitHandler(){
         return new SubmitHandler();
     }
 }

@@ -3,6 +3,7 @@
 <style>
     table td{
         color:#000 !important;
+        font-weight: 500 !important;
     }
 </style>
 <div>
@@ -31,13 +32,15 @@
                             }[experiment.status]}</td>
                     <td>
                         <c:if test="${experiment.status == '0'}">
-                            <a href="javascript:void(0);" class="${experiment.id }"
-                               id="publish"><span class="fa-wrench" title="发布任务"></span> </a>
-                            <a href="javascript:void(0);" class="${experiment.id }"
-                               id="delete"><span class="fa-remove" title="删除"></span> </a>
+                            <a href="javascript:void(0);" id="${experiment.id }"
+                               class="publish"><span class="fa-wrench" title="发布任务"></span> </a>
+                            <a href="javascript:void(0);" id="${experiment.id }"
+                               class="modify"><span class="fa-edit" title="修改"></span> </a>
+                            <a href="javascript:void(0);" id="${experiment.id }"
+                               class="delete"><span class="fa-remove" title="删除"></span> </a>
                         </c:if>
-                        <a href="javascript:void(0);" class="${experiment.id }"
-                           id="view"><span class="fa-eye" title="查看要求"></span> </a>
+                        <a href="javascript:void(0);" id="${experiment.id }"
+                           class="view"><span class="fa-eye" title="查看要求"></span> </a>
                     </td>
                 </tr>
             </c:forEach>
@@ -56,22 +59,38 @@
 <input type="hidden" id="classId" value="${classId}"/>
 
 <script>
-    $("#publish").click(function(){
-        var param ={
-            id:$(this).attr("class"),
-            classId:$("#classId").val()
-        }
-        request("/mvc/exp/publishExp",param,function(data){
-            if(data.head.status="success"){
-                alert("发布成功！");
-                window.location.href="/mvc/exp/viewTask?courseId="+$("#courseId").val()+"&classId="+$("#classId").val();
+    $(".publish").each(function(){
+        $(this).click(function() {
+            var param = {
+                id: $(this).attr("id"),
+                classId: $("#classId").val()
             }
-        })
+            request("/mvc/exp/publishExp", param, function (data) {
+                if (data.head.status = "success") {
+                    alert("发布成功！");
+                    window.location.reload(true);
+                }
+            });
+        });
     });
-    $("#delete").click(function(){
-
+    $(".modify").each(function(){
+        $(this).click(function() {
+           window.location.href="/mvc/exp/addExp?courseId="+$("#courseId").val()+"&classId="+$("#classId").val()+"&expId="+$(this).attr("id");
+        });
     });
-    $("#view").click(function(){
-
+    $(".delete").each(function(){
+        $(this).click(function() {
+            request("/mvc/exp/delete", {expId: $(this).attr("id")}, function (data) {
+                if (data.head.state == "success") {
+                    alert("删除成功！");
+                    window.location.reload(true);
+                }
+            });
+        });
+    });
+    $(".view").each(function(){
+        $(this).click(function() {
+            window.location.href = "/mvc/exp/showDetail?expId=" + $(this).attr("id") + "&courseId=" + $("#courseId").val();
+        });
     });
 </script>

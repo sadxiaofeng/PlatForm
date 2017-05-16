@@ -11,4 +11,8 @@ public interface ISubmitService {
     List<Submit> getSubmitByStudentId(long studentId,long courseId);
 
     void create(Submit submit);
+
+    Submit getById(long id);
+
+    void update(Submit submit);
 }
