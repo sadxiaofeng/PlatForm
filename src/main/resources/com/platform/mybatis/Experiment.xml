@@ -53,16 +53,16 @@
     <update id="update">
         update experiment
         <trim prefix="set" prefixOverrides=",">
-            <if test=" id!= null">,id=#{id}</if>
             <if test=" creatorId!= null">,creator=#{creatorId}</if>
             <if test=" title!= null">,title=#{title}</if>
             <if test=" content!= null">,content=#{content}</if>
-            <if test=" createTime!= null">,creat_date=#{creatTime}</if>
+            <if test=" createTime!= null">,creat_date=#{createTime}</if>
             <if test=" deadLine!= null">,dead_line=#{deadLine}</if>
             <if test=" classId!= null">,class_id=#{classId}</if>
             <if test=" courseId!= null">,course_id=#{courseId}</if>
             <if test=" status!= null">,status=#{status}</if>
         </trim>
+        where id=#{id}
     </update>
 
     <select id="getByCoursClass" resultMap="experiment">
@@ -72,4 +72,5 @@
     <update id="publishExp">
         update experiment set status=1 where id=#{id}
     </update>
+
 </mapper>

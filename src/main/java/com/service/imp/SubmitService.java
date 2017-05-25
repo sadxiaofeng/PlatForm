@@ -2,7 +2,11 @@ package com.service.imp;
 
 import com.dao.ITaskSubmitDao;
 import com.pojo.Submit;
+import com.pojo.socket.MessageHandler;
 import com.service.ISubmitService;
+import com.websocket.WebSocketConfig;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +27,11 @@ public class SubmitService  implements ISubmitService {
     }
 
     @Override
+    public List<Submit> getByExpId(long expId) {
+        return submitDao.getByExpId(expId);
+    }
+
+    @Override
     public void create(Submit submit) {
         submitDao.create(submit);
     }
@@ -36,4 +45,10 @@ public class SubmitService  implements ISubmitService {
     public void update(Submit submit) {
         submitDao.update(submit);
     }
+
+    @Override
+    public List<Submit> getNewExp(long userId) {
+        return submitDao.getNewExp(userId);
+    }
+
 }

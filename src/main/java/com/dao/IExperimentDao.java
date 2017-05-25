@@ -20,4 +20,6 @@ public interface IExperimentDao {
     List<Experiment> getByCoursClass(@Param("courseId") long courseId,@Param("classId") long classId);
 
     void publishExp(long id);
+
+
 }

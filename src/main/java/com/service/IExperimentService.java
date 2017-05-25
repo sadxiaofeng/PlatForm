@@ -1,7 +1,10 @@
 package com.service;
 
 import com.pojo.Experiment;
+import com.pojo.Submit;
+import com.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -19,4 +22,6 @@ public interface IExperimentService {
     Experiment getById(long id);
 
     void update(Experiment experiment);
+
+    void sendNewSubmitMS(String account, Submit submit);
 }

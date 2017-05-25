@@ -5,11 +5,35 @@
     User user = CookieUtil.getCurrentUser(request);
 %>
 <style>
-    .ms{
-        min-width:220px;
-        height:75.6px;
-        line-height:75.6px !important;
+    #blareImg{
+        width:20px;
+        height: 20px;
+        box-sizing: content-box;
+        margin-top:15px;
+        margin-right:20px;
+        transform: translateY(50%);
+        animation: mymove 1.5s infinite;
+        opacity: 1;
+        display: none;
     }
+    @keyframes mymove {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        49% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        99% {
+            opacity: 0;
+        }
+    }
+
 </style>
 <nav class="navbar user-info-navbar" role="navigation" style="margin-bottom: 10px;">
 
@@ -71,9 +95,10 @@
     </ul>
 
     <ul class="user-info-menu right-links list-inline list-unstyled">
-        <li class="user-profile ms" >
-            <img src=""/>
-        </li>
+        <a href="javascript:void(0);">
+            <img src="/static/img/blare.png" id="blareImg" />
+        </a>
+
     </ul>
 
 </nav>
@@ -90,17 +115,52 @@
         console.log("connection success");
     };
     websocket.onmessage = function (evnt) {
+        deal_obj(evnt.data);
     };
     websocket.onerror = function (evnt) {
     };
     websocket.onclose = function (evnt) {
     }
-//    if ('WebSocket' in window) {
-//        websocket = new WebSocket("ws://localhost:8080/Origami/webSocketServer");
-//    } else if ('MozWebSocket' in window) {
-//        websocket = new MozWebSocket("ws://localhost:8080/Origami/webSocketServer");
-//    } else {
-//        websocket = new SockJS("http://localhost:8080/Origami/sockjs/webSocketServer");
-//    }
+
+    $("#blareImg").click(function(){
+        $('#exp_alert').modal('show');
+    });
+
+    var interval = setTimeout(function(){
+        clearTimeout(interval);
+        request("/mvc/api/getNewExp",{},function(data){
+            if(data.head.state=="success"){
+//                var array = eval("("+data.body+")");
+//                if (typeof(array) != "undefined" && array.length!=0) {
+//                    $("#blareImg").css({"display":"block"});
+//                    var alert_content = "";
+//                    for(var i=0;i<array.length;i++){
+//                        alert_content += "<div courseid='"+array[i].courseId+"'>"+array[i].experiment.creator.name+"老师的新任务："+ "<a href='/mvc/exp/listView?courseId="+array[i].courseId+"'>"+ array[i].experiment.title +"</a>" +"</div>"
+//                    }
+//                    $("#exp_alert .modal-body").html(alert_content);
+//                }
+                deal(data.body);
+            }
+        });
+    },500);
+
+    function deal(data){
+        var array = eval("("+data+")");
+        if(Object.prototype.toString.call(array)=='[object Array]' && array.length!=0){
+            $("#blareImg").css({"display":"block"});
+            var alert_content = "";
+            for(var i=0;i<array.length;i++){
+                alert_content += "<div courseid='"+array[i].courseId+"'>"+array[i].experiment.creator.name+"老师的新任务："+ "<a href='/mvc/exp/listView?courseId="+array[i].courseId+"'>"+ array[i].experiment.title +"</a>" +"</div>"
+            }
+            $("#exp_alert .modal-body").append(alert_content);
+        }
+    }
+
+    function deal_obj(data){
+        var array = eval("("+data+")");-
+        $("#blareImg").css({"display":"block"});
+        var alert_content = "<div courseid='"+array.courseId+"'>"+array.experiment.creator.name+"老师的新任务："+ "<a href='/mvc/exp/listView?courseId="+array.courseId+"'>"+ array.experiment.title +"</a>" +"</div>"
+        $("#exp_alert .modal-body").append(alert_content);
+    }
 </script>
 	

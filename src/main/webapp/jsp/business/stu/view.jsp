@@ -5,6 +5,10 @@
         color:#000 !important;
         font-weight: 500 !important;
     }
+    .new{
+        color:red;
+        font-weight: 500;
+    }
 </style>
 <div>
     <table class="table table-model-2 table-hover table-condensed">
@@ -19,12 +23,11 @@
             <th>操作</th>
         </tr>
         </thead>
-
     <tbody>
     <c:if test="${!empty submitList}">
         <c:forEach items="${submitList}" var="submit" varStatus="i">
             <tr>
-                <td>${submit.experimentId}</td>
+                <td>${submit.experimentId}<c:if test="${submit.isRead==0}"><span class="new">(new)!</span></c:if></td>
                 <td>${submit.course.name}</td>
                 <td>${submit.course.teacher.name}</td>
                 <td>${submit.experiment.title}</td>
@@ -70,4 +73,15 @@
             window.location.href = "/mvc/exp/viewCode?subId=" + $id + "&courseId=" + $("#courseId").val();
         });
     });
+
+    $(function(){
+        var courseId = $("#courseId").val();
+        $("#exp_alert .modal-body div").each(function(){
+            var $target = $(this);
+            var id = $target.attr("courseid");
+            if(courseId==id){
+                $target.remove();
+            }
+        });
+    })
 </script>

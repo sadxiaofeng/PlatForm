@@ -11,10 +11,13 @@
         <result property="createTime" column="create_time"/>
         <result property="content" column="content"/>
         <result property="isRead" column="is_read"/>
+        <result property="grade" column="grade"/>
         <association property="experiment" column="exp_id" javaType="com.pojo.Experiment"
                      select="com.dao.IExperimentDao.getById"/>
         <association property="course" column="course_id" javaType="com.pojo.Course"
                      select="com.dao.ICourseDao.getById"/>
+        <association property="user" column="student_id" javaType="com.pojo.User"
+                     select="com.dao.IUserDao.getUserById"/>
     </resultMap>
 
     <insert id="create">
@@ -29,6 +32,7 @@
             <if test="createTime!=null">,create_time</if>
             <if test="content!=null">,content</if>
             <if test="isRead!=null">,is_read</if>
+            <if test="grade!=null">,grade</if>
         </trim>
         ) values(
         <trim prefix=" " prefixOverrides=",">
@@ -41,6 +45,7 @@
             <if test="createTime!=null">,#{createTime}</if>
             <if test="content!=null">,#{content}</if>
             <if test="isRead!=null">,#{isRead}</if>
+            <if test="grade!=null">,#{grade}</if>
         </trim>
         )
     </insert>
@@ -56,6 +61,7 @@
             <if test="createTime!=null">,create_time=#{createTime}</if>
             <if test="content!=null">,content=#{content}</if>
             <if test="isRead!=null">,is_read=#{isRead}</if>
+            <if test="grade!=null">,grade=#{grade}</if>
         </trim>
         where id=#{id}
     </update>
@@ -65,10 +71,18 @@
     </delete>
 
     <select id="getByStudentId" resultMap="submit">
-        select * from studnet_submit where student_id=#{studentId} and course_id=#{courseId}
+        select * from studnet_submit where student_id=#{studentId} and course_id=#{courseId} order by id DESC
     </select>
 
     <select id="getById" resultMap="submit">
         select * from studnet_submit where id = #{id}
+    </select>
+
+    <select id="getByExpId" resultMap="submit">
+        select * from studnet_submit where exp_id = #{expId}
+    </select>
+
+    <select id="getNewExp" resultMap="submit">
+        select * from studnet_submit where student_id = #{userId} and is_read=0
     </select>
 </mapper>

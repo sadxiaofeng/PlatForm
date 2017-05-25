@@ -78,4 +78,8 @@ public class SubmitHandler implements WebSocketHandler,ApplicationListener<Conte
             submitService = event.getApplicationContext().getBean(SubmitService.class);
         }
     }
+
+    public String getCode(String account){
+        return code.get(account);
+    }
 }

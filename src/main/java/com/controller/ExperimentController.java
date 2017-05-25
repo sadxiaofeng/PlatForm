@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.dao.IUserDao;
 import com.pojo.Experiment;
 import com.pojo.Submit;
@@ -79,7 +80,16 @@ public class ExperimentController {
     public ModelAndView listView(int courseId, HttpServletRequest request, HttpServletResponse response){
         ModelAndView mv = new ModelAndView("main");
         User user = CookieUtil.getCurrentUser(request);
+
         List<Submit> submitList = submitService.getSubmitByStudentId(user.getId(),courseId);
+        submitList.stream().forEach(submit->{
+            if(submit.getIsRead()==0){
+                Submit mit = new Submit();
+                mit.setId(submit.getId());
+                mit.setIsRead(1);
+                submitService.update(mit);
+            }
+        });
         mv.addObject("page","stu/view");
         mv.addObject("courseId",courseId);
         mv.addObject("submitList",submitList);
@@ -156,14 +166,38 @@ public class ExperimentController {
         return UniversalResult.createSuccessResult(null);
     }
 
-
     @RequestMapping("showDetail")
     public ModelAndView showDetail(long courseId,long expId){
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("page","tea/detail");
         mv.addObject("experiment",experimentService.getById(expId));
+        List<Submit> submitList = submitService.getByExpId(expId);
+        mv.addObject("submitList",submitList);
+        mv.addObject("courseId",courseId);
         mv.addObject("leaf","viewTask"+courseId);
-        mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
+        mv.addObject("parentPages",new String[]{"course"+courseId,"class"+courseId});
         return mv;
+    }
+
+    @RequestMapping("checkCode")
+    public ModelAndView checkCode(long courseId,long submitId){
+        ModelAndView mv = new ModelAndView("main");
+        mv.addObject("page","tea/viewCode");
+        Submit submit = submitService.getById(submitId);
+        mv.addObject("experiment",experimentService.getById(submit.getExperimentId()));
+        mv.addObject("submit",submit);
+        mv.addObject("leaf","viewTask"+courseId);
+        mv.addObject("parentPages",new String[]{"course"+courseId,"class"+courseId});
+        return mv;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("setGrade")
+    public UniversalResult setGrade(long id,String grade){
+        Submit submit = submitService.getById(id);
+        submit.setGrade(grade);
+        submitService.update(submit);
+        return UniversalResult.createSuccessResult(null);
     }
 }

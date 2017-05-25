@@ -55,8 +55,104 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <style type="text/css">
+        .loding{
+            width:30px;
+            height:30px;
+            margin:5px auto;
+            display: block;
+        }
+    </style>
 </head>
 <body class="page-body skin-navy">
+
+<div class="modal fade" id="logout_modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fa-info-circle"></i>&nbsp;&nbsp;确认退出</h4>
+            </div>
+
+            <div class="modal-body">
+                你确定要退出吗？
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-danger"
+                        onclick="window.location.href='<%=request.getContextPath()%>/mvc/auth/loginout'">确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="exp_alert">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">实验任务提醒</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="coding_running">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">代码运行结果</h4>
+            </div>
+            <div class="modal-body">
+                <img src='/static/img/loading.gif' class='loding'/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="grade_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">评分</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="form-horizontal validate">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">
+                            请评分：
+                        </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="grade_input" type="text"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary" id="grade_submit">
+                            <i class="icon-ok icon-white"></i> 确认
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn" onclick="javascript:$('#grade_modal').modal('hide');" id="return">
+                            返回
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#coding_running').on('hidden.bs.modal', function () {
+        $(this).find(".modal-body").html("<img src='/static/img/loading.gif' class='loding'/>");
+    })
+</script>
 
 <div class="page-container">
     <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
@@ -90,38 +186,6 @@
 
 </div>
 
-<div class="modal fade" id="logout_modal" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-title"><i class="fa-info-circle"></i>&nbsp;&nbsp;确认退出</h4>
-            </div>
-
-            <div class="modal-body">
-                你确定要退出吗？
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-danger"
-                        onclick="window.location.href='<%=request.getContextPath()%>/mvc/auth/loginout'">确定
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-<script type="text/javascript">
-
-</script>
 
 <!-- Bottom Scripts -->
 <script src="<%=request.getContextPath() %>/static/plugins/xenon/assets/js/bootstrap.min.js"></script>

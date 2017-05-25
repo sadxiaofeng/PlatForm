@@ -2,6 +2,7 @@
 target/
 src/main/test/*
 .idea/
+coding/
 ##class file##
 *.com  
 *.class  

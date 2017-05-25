@@ -1,5 +1,6 @@
 package com.dao;
 
+import com.pojo.Experiment;
 import com.pojo.Submit;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +19,9 @@ public interface ITaskSubmitDao {
     List<Submit> getByStudentId(@Param("studentId") long studentId,@Param("courseId") long courseId);
 
     Submit getById(long id);
+
+    List<Submit> getByExpId(long expId);
+
+    List<Submit> getNewExp(long userId);
 }
 

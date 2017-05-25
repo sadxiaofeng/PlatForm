@@ -16,4 +16,11 @@ public class DateUtil {
             return null;
         }
     }
+
+    public static String parseClassName(String code){
+        int start = code.indexOf("public class");
+        int end = code.indexOf("{",start);
+        String name = code.substring(start+12,end).trim();
+        return name;
+    }
 }

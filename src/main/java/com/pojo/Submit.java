@@ -9,6 +9,7 @@ import java.util.Date;
 public class Submit {
     private Long id;
     private Long studentId;
+    private User user;
     private Long courseId;
     private Course course;
     private Date submitTime;
@@ -18,15 +19,33 @@ public class Submit {
     private Date createTime;
     private Experiment experiment;
     private Integer isRead;
+    private String grade;
 
     public Submit() {
     }
+
 
     public Submit(Long studentId, Long courseId, Long experimentId, Date createTime) {
         this.studentId = studentId;
         this.courseId = courseId;
         this.experimentId = experimentId;
         this.createTime = createTime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public Integer getIsRead() {

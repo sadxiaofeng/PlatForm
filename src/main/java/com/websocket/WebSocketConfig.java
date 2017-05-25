@@ -18,7 +18,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebMvc
 @EnableWebSocket
-public class webSocketConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
+public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(getMsHandler(),"/ws/login").addInterceptors(new MsWebSocketHandlerInterceptor());
@@ -27,11 +27,11 @@ public class webSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
 
 
     @Bean
-    public MessageHandler getMsHandler(){
+    public static MessageHandler getMsHandler(){
         return new MessageHandler();
     }
     @Bean
-    public SubmitHandler getSubmitHandler(){
+    public static SubmitHandler getSubmitHandler(){
         return new SubmitHandler();
     }
 }
