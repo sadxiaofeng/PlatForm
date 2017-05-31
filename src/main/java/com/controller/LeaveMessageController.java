@@ -38,7 +38,7 @@ public class LeaveMessageController {
         User receiver = userService.getUserByAccount(account);
         LeaveMessage leaveMessage = new LeaveMessage(user.getId(),receiver.getId(),new Date(),message);
         leaveMessageService.create(leaveMessage);
-//        WebSocketConfig.getMsHandler().sendLeaveMessage(account,leaveMessage);
+        WebSocketConfig.getMsHandler().sendMessage(account);
         return UniversalResult.createSuccessResult(null);
     }
 
@@ -82,6 +82,7 @@ public class LeaveMessageController {
         list.stream().forEach(ms->{
             ms.setCurrent(formatter.format(ms.getTime()));
         });
+        update(sender.getAccount());
         return UniversalResult.createSuccessResult(JSON.toJSONString(list));
     }
 }

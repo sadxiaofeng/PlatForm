@@ -168,15 +168,14 @@
     websocket.onmessage = function (evnt) {
         var array = eval("("+evnt.data+")");
         //新任务发布信息
-        if(array.type=1){
+        if(array.type==1){
             $("#blareImg").css({"display":"block"});
             var target = array.message;
             var alert_content = "<div courseid='"+target.courseId+"'>"+target.experiment.creator.name+"老师的新任务："+ "<a class='underLine' href='/mvc/exp/listView?courseId="+target.courseId+"'>"+ target.experiment.title +"</a>" +"</div>"
             $("#exp_alert .modal-body").append(alert_content);
         }else{
-
+            bulid();
         }
-//        deal_obj(evnt.data);
     };
     websocket.onerror = function (evnt) {
     };
@@ -214,9 +213,11 @@
                 for(var i=0;i<count.length;i++){
                     content += "<div><a href='javascript:void(0)' class='message_link underLine' account='"+count[i].account+"'>"+count[i].name+"</a>发给你"+count[i].count+"条留言</div>";
                 }
-                $("#modal_viewMessage .modal-body").append(content);
+                $("#modal_viewMessage .modal-body").html(content);
                 if(content!=""){
                     $("#aliw").css({"display":"block"});
+                }else{
+                    $("#aliw").css({"display":"none"});
                 }
             }
         });

@@ -92,4 +92,15 @@ public class MessageHandler implements  WebSocketHandler,ApplicationListener<Con
         }
     }
 
+    public void sendMessage(String account){
+        if(users.containsKey(account)){
+            TextMessage ms = new TextMessage(JSON.toJSONString(new SocketMessage(2,null)));
+            try {
+                users.get(account).sendMessage(ms);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

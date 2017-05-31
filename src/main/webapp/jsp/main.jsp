@@ -203,7 +203,11 @@
     })
 
     $("#send_submit").click(function(){
-        request("/mvc/message/send",{account:$(this).attr("account"),message:$("#modal_send textarea").val()},function(data){
+        var content = $("#modal_send textarea").val();
+        if(content.trim()==""){
+            alert("输入值不能为空");
+        }
+        request("/mvc/message/send",{account:$(this).attr("account"),message:content},function(data){
             if(data.head.state=="success"){
                 alert("发送成功！");
                 $("#modal_send textarea").text("");
@@ -212,7 +216,11 @@
     });
 
     $("#reply_submit").click(function(){
-        request("/mvc/message/send",{account:$(this).attr("account"),message:$("#modal_reply textarea").val()},function(data){
+        var content = $("#modal_reply textarea").val();
+        if(content.trim()==""){
+            alert("输入值不能为空");
+        }
+        request("/mvc/message/send",{account:$(this).attr("account"),message:content},function(data){
             if(data.head.state=="success"){
                 alert("发送成功！");
                 $("#modal_reply textarea").text("");
@@ -222,8 +230,11 @@
 
     $(document).on("click",".message_link",function(){
         var account = $(this).attr("account");
-        request("/mvc/message/update",{account:account});
-        bulid();
+//        request("/mvc/message/update",{account:account});
+        var interval = setTimeout(function(){
+            clearTimeout(interval);clearTimeout(interval);
+            bulid();
+        },1000);
         init_reply(account);
     });
 
@@ -238,7 +249,7 @@
                 $("#modal_viewMessage").modal("hide");
                 $("#modal_reply").modal("show");
                 $("#reply_content").html(content);
-
+                $("#reply_submit").attr("account",account);
             }
         });
     }
