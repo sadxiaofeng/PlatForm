@@ -22,7 +22,6 @@
     WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(application);
     ICourseService courseService = wac.getBean(ICourseService.class);
     User user = CookieUtil.getCurrentUser(request);
-
 %>
 
 <ul id="main-menu" class="main-menu">
@@ -162,6 +161,7 @@
                 </a>
             </li>
         </ul>
+
     </li>
 
 
@@ -175,6 +175,12 @@
                 <a href="/mvc/admin/addCourse">
                     <i class="fa-cube"></i>
                     <span class="title">添加课程</span>
+                </a>
+            </li>
+            <li id="viewCourse">
+                <a href="/mvc/admin/viewCourse">
+                    <i class="fa-cube"></i>
+                    <span class="title">查看课程</span>
                 </a>
             </li>
             <li id="allocation">

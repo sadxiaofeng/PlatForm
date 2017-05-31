@@ -144,7 +144,12 @@ public class ExperimentController {
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("page","coding/coding");
         mv.addObject("courseId",courseId);
-        mv.addObject("submit",submitService.getById(subId));
+        Submit submit = submitService.getById(subId);
+        String content = submit.getContent();
+        content.replace("<","&lt;");
+        content.replace(">","&gt;");
+        submit.setContent(content);
+        mv.addObject("submit",submit);
         mv.addObject("parentPages",new String[]{"course"+courseId,"listCourse"});
         return mv;
     }
@@ -190,7 +195,6 @@ public class ExperimentController {
         mv.addObject("parentPages",new String[]{"course"+courseId,"class"+courseId});
         return mv;
     }
-
 
     @ResponseBody
     @RequestMapping("setGrade")

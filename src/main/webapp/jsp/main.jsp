@@ -62,6 +62,10 @@
             margin:5px auto;
             display: block;
         }
+
+        a.underLine{
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="page-body skin-navy">
@@ -116,6 +120,51 @@
     </div>
 </div>
 
+<div class="modal" id="modal_viewMessage">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal_send">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <textarea style="width:535px;height:50px;"></textarea>
+                <input type="button" id="send_submit" class="btn btn-primary" value="发送">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal_reply">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="reply_content"><img src='/static/img/loading.gif' class='loding'/></div>
+                <textarea style="width:535px;height:50px;"></textarea>
+                <input type="button" id="reply_submit" class="btn btn-primary" value="发送">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="grade_modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -152,6 +201,47 @@
     $('#coding_running').on('hidden.bs.modal', function () {
         $(this).find(".modal-body").html("<img src='/static/img/loading.gif' class='loding'/>");
     })
+
+    $("#send_submit").click(function(){
+        request("/mvc/message/send",{account:$(this).attr("account"),message:$("#modal_send textarea").val()},function(data){
+            if(data.head.state=="success"){
+                alert("发送成功！");
+                $("#modal_send textarea").text("");
+            }
+        })
+    });
+
+    $("#reply_submit").click(function(){
+        request("/mvc/message/send",{account:$(this).attr("account"),message:$("#modal_reply textarea").val()},function(data){
+            if(data.head.state=="success"){
+                alert("发送成功！");
+                $("#modal_reply textarea").text("");
+            }
+        })
+    });
+
+    $(document).on("click",".message_link",function(){
+        var account = $(this).attr("account");
+        request("/mvc/message/update",{account:account});
+        bulid();
+        init_reply(account);
+    });
+
+    function init_reply(account){
+        request("/mvc/message/selectAll",{account:account},function(data){
+            if(data.head.state=="success"){
+                var list = eval("("+data.body+")");
+                var content = "";
+                for(var i=0;i<list.length;i++){
+                    content += "<pre>"+list[i].current+"\n\t"+list[i].content+"</pre>";
+                }
+                $("#modal_viewMessage").modal("hide");
+                $("#modal_reply").modal("show");
+                $("#reply_content").html(content);
+
+            }
+        });
+    }
 </script>
 
 <div class="page-container">

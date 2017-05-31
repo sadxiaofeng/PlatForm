@@ -32,4 +32,14 @@ public class CourseService implements ICourseService{
     public void createCourse(Course course) {
         courseDao.createCourse(course);
     }
+
+    @Override
+    public Course getById(long id) {
+        return courseDao.getById(id);
+    }
+
+    @Override
+    public List<Course> getAll() {
+        return courseDao.getAll();
+    }
 }

@@ -3,10 +3,13 @@ package com.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dao.ICourseClassMapDao;
 import com.pojo.Classroom;
 import com.pojo.Course;
+import com.pojo.CourseClassMap;
 import com.pojo.User;
 import com.service.IClassService;
+import com.service.ICourseClassService;
 import com.service.ICourseService;
 import com.service.IUserService;
 import com.service.imp.CourseService;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by 钱逊 on 2017/5/3.
@@ -41,6 +45,9 @@ public class ManagerController {
 
     @Resource
     ICourseService courseService;
+
+    @Resource
+    ICourseClassService courseClassService;
 
     @RequestMapping("addStudent")
     public ModelAndView addStudent(){
@@ -92,7 +99,7 @@ public class ManagerController {
     public ModelAndView resetPassword(){
         ModelAndView mv = new ModelAndView("main");
         mv.addObject("page","admin/resetPassword");
-        mv.addObject("parentPages",new String[]{"courseAdmin","resetPassword"});
+        mv.addObject("parentPages",new String[]{"user","resetPassword"});
         return mv;
     }
 
@@ -138,6 +145,16 @@ public class ManagerController {
         return mv;
     }
 
+    @RequestMapping("viewCourse")
+    public ModelAndView viewCourse(){
+        ModelAndView mv = new ModelAndView("main");
+        List<Course> list = courseService.getAll();
+        mv.addObject("page","admin/viewCourse");
+        mv.addObject("courses",list);
+        mv.addObject("parentPages",new String[]{"courseAdmin","viewCourse"});
+        return mv;
+    }
+
     @ResponseBody
     @RequestMapping("createCourse")
     public UniversalResult createCourse(String name,String jobNumber,int type){
@@ -158,4 +175,17 @@ public class ManagerController {
         return mv;
     }
 
+    @ResponseBody
+    @RequestMapping("allocationClass")
+    public UniversalResult allocationClass(long classId,long courseId){
+        if(classService.getById(classId)==null){
+            return UniversalResult.createErrorResult(101);
+        }
+        if(courseService.getById(courseId)==null){
+            return UniversalResult.createErrorResult(102);
+        }
+        CourseClassMap map = new CourseClassMap(courseId,classId);
+        courseClassService.create(map);
+        return UniversalResult.createSuccessResult(null);
+    }
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ILeaveMessageDao">
+    <resultMap id="leaveMessage" type="com.pojo.LeaveMessage">
+        <id property="id" column="id"/>
+        <result property="senderId" column="sender"/>
+        <result property="receiverId" column="receiver"/>
+        <result property="time" column="time"/>
+        <result property="content" column="content"/>
+        <result property="isRead" column="is_read"/>
+        <association property="sender" column="sender" javaType="com.pojo.User"
+                     select="com.dao.IUserDao.getUserById"/>
+        <association property="receiver" column="receiver" javaType="com.pojo.User"
+                     select="com.dao.IUserDao.getUserById"/>
+    </resultMap>
+
+    <insert id="create">
+        insert into leave_message(
+        <trim prefix=" " prefixOverrides=",">
+            <if test="senderId!=null">,sender</if>
+            <if test="receiverId!=null">,receiver</if>
+            <if test="time!=null">,time</if>
+            <if test="content!=null">,content</if>
+            <if test="isRead!=null">,is_read</if>
+        </trim>
+        ) values(
+        <trim prefix=" " prefixOverrides=",">
+            <if test="senderId!=null">,#{senderId}</if>
+            <if test="receiverId!=null">,#{receiverId}</if>
+            <if test="time!=null">,#{time}</if>
+            <if test="content!=null">,#{content}</if>
+            <if test="isRead!=null">,#{isRead}</if>
+        </trim>
+        )
+    </insert>
+
+    <select id="getLeaveMessage" resultMap="leaveMessage">
+        select * from leave_message
+        <trim prefix="where" prefixOverrides="and">
+            <if test="sender!=null">and sender=#{sender}</if>
+            <if test="receiver!=null">and receiver=#{receiver}</if>
+            and is_read=0
+        </trim>
+        order by time desc
+    </select>
+
+    <update id="isRead">
+        update leave_message set is_read=1 where sender=#{id}
+    </update>
+
+    <select id="getReceiverCount" resultType="int">
+        select count(id) from leave_message where sender=#{id}
+    </select>
+</mapper>

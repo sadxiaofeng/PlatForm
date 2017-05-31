@@ -35,14 +35,17 @@
         bottom:10px;
         right:65px;
     }
-
+    /*.ace_line{*/
+        /*font-family:monospace !important;*/
+        /*font-size:14px !important;*/
+    /*}*/
 </style>
 <div class="container-fluid form-box" >
 <pre id="editor" style="margin-top:75.6px;"></pre>
 </div>
 <button type="button" class="btn"  id="save">保存</button>
-<button type="button" class="btn"  id="run">运行</button>
-<button type="button" class="btn"  id="back">返回</button>
+<%--<button type="button" class="btn"  id="run">运行</button>--%>
+<button type="button" class="btn"  id="back">取消</button>
 <input type="hidden" id="subId" value="${submit.id}">
 <script src="../../static/js/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -52,6 +55,7 @@
     editor.session.setMode("ace/mode/java");
 
     $("#editor").keyup(function(){
+//        console.log('keyup')
         coding.send(editor.getValue());
     });
 
@@ -82,17 +86,17 @@
         $("#coding_running").modal("show");
         request("/mvc/api/onlineRunning",{id:$("#subId").val()},function(data){
             if(data.head.state="success"){
-                $("#coding_running .modal-body").html(data.body);
+                var result = data.body;
+                result = result.replace(/\n/g,"</br>");
+                $("#coding_running .modal-body").text(result);
             }
         });
     });
 </script>
-<code style="display: none" id="content">${submit.content}</code>
-<c:if test="${!empty submit}">
-    <%--<pre style="display: none" id="content">${submit.content}</pre>--%>
 
+<c:if test="${!empty submit}">
     <script>
-        editor.setValue($("#content").html());
+        editor.setValue(${submit.content});
     </script>
 </c:if>
 

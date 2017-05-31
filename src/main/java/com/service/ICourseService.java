@@ -14,4 +14,8 @@ public interface ICourseService {
     public List<Course> getCourseByTeacherId(long id);
 
     void createCourse(Course course);
+
+    Course getById(long id);
+
+    List<Course> getAll();
 }

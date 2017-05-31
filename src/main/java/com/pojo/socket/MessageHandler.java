@@ -2,8 +2,11 @@ package com.pojo.socket;
 
 import com.alibaba.fastjson.JSON;
 import com.controller.ExperimentController;
+import com.pojo.LeaveMessage;
+import com.pojo.SocketMessage;
 import com.pojo.Submit;
 import com.pojo.User;
+import com.service.imp.LeaveMessageService;
 import com.service.imp.SubmitService;
 import com.service.imp.UserService;
 import com.util.Constant;
@@ -35,6 +38,7 @@ public class MessageHandler implements  WebSocketHandler,ApplicationListener<Con
 
     private static UserService userService;
 
+    private static LeaveMessageService leaveMessageService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -73,12 +77,13 @@ public class MessageHandler implements  WebSocketHandler,ApplicationListener<Con
             //需要执行的逻辑代码，当spring容器初始化完成后就会执行该方法。
             submitService = event.getApplicationContext().getBean(SubmitService.class);
             userService = event.getApplicationContext().getBean(UserService.class);
+            leaveMessageService = event.getApplicationContext().getBean(LeaveMessageService.class);
         }
     }
 
     public void sendMessage(String account, Submit submit){
         if(users.containsKey(account)){
-            TextMessage ms = new TextMessage(JSON.toJSONString(submit));
+            TextMessage ms = new TextMessage(JSON.toJSONString(new SocketMessage(1,submit)));
             try {
                 users.get(account).sendMessage(ms);
             } catch (IOException e) {
@@ -86,6 +91,5 @@ public class MessageHandler implements  WebSocketHandler,ApplicationListener<Con
             }
         }
     }
-
 
 }

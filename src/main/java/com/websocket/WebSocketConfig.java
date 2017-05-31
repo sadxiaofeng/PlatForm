@@ -25,7 +25,6 @@ public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
         registry.addHandler(getSubmitHandler(),"/ws/submit").addInterceptors(new SubmitWebSocketHandlerInterceptor());
     }
 
-
     @Bean
     public static MessageHandler getMsHandler(){
         return new MessageHandler();

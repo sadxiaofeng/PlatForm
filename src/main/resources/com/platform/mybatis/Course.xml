@@ -13,11 +13,11 @@
     </resultMap>
 
     <select id="getCoursesByTeacherId" resultMap="course">
-        select c.*,m.* from course c,course_class_map m where teacher_id=#{teacherId} and m.course_id=c.id
+        select *  from course  where teacher_id=#{teacherId}
     </select>
 
     <select id="getById" resultMap="course">
-        select c.*,m.* from course c,course_class_map m where id=#{id} and c.id = m.course_id
+        select * from course  where id=#{id}
     </select>
 
     <select id="getCoursesByClassId" resultMap="course">
@@ -27,4 +27,8 @@
     <insert id="createCourse">
         insert into course(name,teacher_id,type) values(#{name},#{teacherId},#{type})
     </insert>
+
+    <select id="getAll" resultMap="course">
+        select * from course
+    </select>
 </mapper>

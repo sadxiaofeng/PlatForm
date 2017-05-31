@@ -16,6 +16,17 @@
         opacity: 1;
         display: none;
     }
+    #aliw{
+        width:20px;
+        height: 20px;
+        box-sizing: content-box;
+        margin-top:15px;
+        margin-right:20px;
+        transform: translateY(50%);
+        animation: mymove 1.5s infinite;
+        opacity: 1;
+        display: none;
+    }
     @keyframes mymove {
         0%, 100% {
             opacity: 1;
@@ -61,6 +72,27 @@
 
     </ul>
 
+    <ul class="user-info-menu left-links list-inline list-unstyled" >
+
+        <li class="dropdown user-profile">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                <span>
+                    联系人
+                    <i class="fa-angle-down"></i>
+                </span>
+            </a>
+
+            <ul class="dropdown-menu user-profile-menu list-unstyled" id="contacts" style="z-index:100;width:100px;overflow: auto;max-height:200px;">
+
+            </ul>
+        </li>
+    </ul>
+
+    <ul class="user-info-menu left-links list-inline list-unstyled">
+        <a href="javascript:void(0);">
+            <img src="/static/img/aliw.jpg" id="aliw" />
+        </a>
+    </ul>
 
 
     <!-- Right links for user info navbar -->
@@ -98,12 +130,31 @@
         <a href="javascript:void(0);">
             <img src="/static/img/blare.png" id="blareImg" />
         </a>
-
     </ul>
 
 </nav>
 
 <script type="text/javascript">
+    $(function(){
+       request("/mvc/api/getContacts",{},function(data){
+           if(data.head.state=="success"){
+               var userlist = eval("("+data.body+")");
+               var content = "";
+               for(var i=0;i<userlist.length;i++){
+                   content += "<li><a account='"+userlist[i].account+"' href='javascript:void(0);'>"+userlist[i].name+"</a></li>";
+               }
+               $("#contacts").append(content);
+           }
+       });
+
+        $(document).on("click","#contacts a",function(){
+            $("#modal_send").modal("show");
+            $("#modal_send h4").text("给"+$(this).text()+"发送信息");
+            $("#send_submit").attr("account",$(this).attr("account"));
+        });
+
+        bulid();
+    });
 
     $('#logoutBtn').on('click', function (ev) {
         ev.preventDefault();
@@ -115,7 +166,17 @@
         console.log("connection success");
     };
     websocket.onmessage = function (evnt) {
-        deal_obj(evnt.data);
+        var array = eval("("+evnt.data+")");
+        //新任务发布信息
+        if(array.type=1){
+            $("#blareImg").css({"display":"block"});
+            var target = array.message;
+            var alert_content = "<div courseid='"+target.courseId+"'>"+target.experiment.creator.name+"老师的新任务："+ "<a class='underLine' href='/mvc/exp/listView?courseId="+target.courseId+"'>"+ target.experiment.title +"</a>" +"</div>"
+            $("#exp_alert .modal-body").append(alert_content);
+        }else{
+
+        }
+//        deal_obj(evnt.data);
     };
     websocket.onerror = function (evnt) {
     };
@@ -130,37 +191,39 @@
         clearTimeout(interval);
         request("/mvc/api/getNewExp",{},function(data){
             if(data.head.state=="success"){
-//                var array = eval("("+data.body+")");
-//                if (typeof(array) != "undefined" && array.length!=0) {
-//                    $("#blareImg").css({"display":"block"});
-//                    var alert_content = "";
-//                    for(var i=0;i<array.length;i++){
-//                        alert_content += "<div courseid='"+array[i].courseId+"'>"+array[i].experiment.creator.name+"老师的新任务："+ "<a href='/mvc/exp/listView?courseId="+array[i].courseId+"'>"+ array[i].experiment.title +"</a>" +"</div>"
-//                    }
-//                    $("#exp_alert .modal-body").html(alert_content);
-//                }
-                deal(data.body);
+                var array = eval("("+data.body+")");
+                if(Object.prototype.toString.call(array)=='[object Array]' && array.length!=0){
+                    $("#blareImg").css({"display":"block"});
+                    var alert_content = "";
+                    for(var i=0;i<array.length;i++){
+                        alert_content += "<div courseid='"+array[i].courseId+"'>"+array[i].experiment.creator.name+"老师的新任务："+ "<a class='underLine' href='/mvc/exp/listView?courseId="+array[i].courseId+"'>"+ array[i].experiment.title +"</a>" +"</div>"
+                    }
+                    $("#exp_alert .modal-body").append(alert_content);
+                }
+
             }
         });
     },500);
 
-    function deal(data){
-        var array = eval("("+data+")");
-        if(Object.prototype.toString.call(array)=='[object Array]' && array.length!=0){
-            $("#blareImg").css({"display":"block"});
-            var alert_content = "";
-            for(var i=0;i<array.length;i++){
-                alert_content += "<div courseid='"+array[i].courseId+"'>"+array[i].experiment.creator.name+"老师的新任务："+ "<a href='/mvc/exp/listView?courseId="+array[i].courseId+"'>"+ array[i].experiment.title +"</a>" +"</div>"
+
+    function bulid(){
+        request("/mvc/message/messageCount",{},function(data){
+            if(data.head.state=="success"){
+                var count = eval("("+data.body+")");
+                var content="";
+                for(var i=0;i<count.length;i++){
+                    content += "<div><a href='javascript:void(0)' class='message_link underLine' account='"+count[i].account+"'>"+count[i].name+"</a>发给你"+count[i].count+"条留言</div>";
+                }
+                $("#modal_viewMessage .modal-body").append(content);
+                if(content!=""){
+                    $("#aliw").css({"display":"block"});
+                }
             }
-            $("#exp_alert .modal-body").append(alert_content);
-        }
+        });
     }
 
-    function deal_obj(data){
-        var array = eval("("+data+")");-
-        $("#blareImg").css({"display":"block"});
-        var alert_content = "<div courseid='"+array.courseId+"'>"+array.experiment.creator.name+"老师的新任务："+ "<a href='/mvc/exp/listView?courseId="+array.courseId+"'>"+ array.experiment.title +"</a>" +"</div>"
-        $("#exp_alert .modal-body").append(alert_content);
-    }
+    $("#aliw").click(function(){
+        $('#modal_viewMessage').modal('show');
+    });
 </script>
 	
